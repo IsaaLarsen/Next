@@ -25,7 +25,7 @@ Este é o frontend do sistema de cadastro de profissões, desenvolvido utilizand
    npm run dev
    Ou com yarn:
    yarn dev
-   O frontend estará disponível em http://localhost:3000.
+   O frontend estará disponível em http://localhost:3000/cadastro.
 
 ## Funcionalidade Implementada
 
