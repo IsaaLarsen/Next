@@ -69,4 +69,4 @@ O projeto é composto por:
 
 ## Contribuidores
 
-- Nome do Autor - GitHub: https://github.com/IsaaLarsen
+- Isadora Larsen - GitHub: https://github.com/IsaaLarsen
