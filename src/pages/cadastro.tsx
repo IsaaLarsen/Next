@@ -1,10 +1,10 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import styles from './cadastro.module.css'; // Importando o CSS Module
+import styles from './cadastro.module.css';
 
 interface FormData {
   nome: string;
   descricao?: string;
-  salario: number | '';
+  salario: string;
   empresa: string;
 }
 
@@ -19,14 +19,36 @@ const Cadastro: React.FC = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
-      [name]: name === 'salario' ? Number(value) || '' : value,
-    });
+    // Validação dos campos de texto
+    if (['nome', 'empresa', 'descricao'].includes(name)) {
+      if (/^[a-zA-ZÀ-ÿ\s]*$/.test(value)) {
+        setFormData({ ...formData, [name]: value });
+      }
+    }
+
+    // Validação do campo salário
+    if (name === 'salario') {
+      if (/^\d*$/.test(value) && value.length <= 10) {
+        setFormData({ ...formData, [name]: value });
+      }
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    // Verificação do salário
+    if (formData.salario.length < 2) {
+      alert('O salário deve conter no mínimo 2 dígitos.');
+      return;
+    }
+
+    // Verificação dos outros campos
+    if (!formData.nome || !formData.empresa) {
+      alert('Todos os campos obrigatórios devem ser preenchidos.');
+      return;
+    }
+
     try {
       const response = await fetch('http://127.0.0.1:8000/api/profissoes', {
         method: 'POST',
@@ -91,8 +113,8 @@ const Cadastro: React.FC = () => {
         <input
           id="salario"
           name="salario"
-          type="number"
-          value={formData.salario === '' ? '' : formData.salario}
+          type="text"
+          value={formData.salario}
           onChange={handleChange}
           required
           className={styles.input}
